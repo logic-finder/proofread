@@ -1,0 +1,173 @@
+.TH proofread 1 "10/26/2025" "v1\&.0\&.0"
+.SH NAME
+proofread \- removes spaces at EOL and adds a newline at EOF
+.SH SYNOPSIS
+.nf
+\fBproofread\fR [\fB\-l\fR] [\fB\-f\fR] [\fB\-\-dry\-run\fR[\fB=\fR(\fBfull\fR|\fBline\fR)]] [\fB\-\fR]
+\fBproofread\fR [\fB\-l\fR] [\fB\-f\fR] [\fB\-\-dry\-run\fR[\fB=\fR(\fBfull\fR|\fBline\fR)]] [\fB\-\-mute\fR] \fB+\fR [\fB\-\-\fR] \fI<file>\fR\&...
+\fBproofread\fR [\fB\-l\fR] [\fB\-f\fR] [\fB\-\-keep\fR[\fB=\fI<path>\fR]] [\fB\-\-mute\fR] \fB+\fR [\fB\-\-\fR] \fI<file>\fR\&...
+\fBproofread\fR (\fB\-h\fR | \fB\-\-help\fR)
+\fBproofread\fR (\fB\-v\fR | \fB\-vv\fR | \fB\-vvv\fR)
+.fi
+.PP
+The options starting with '\-' can be stated in a row, i\&.e\&. \fB\-lf\fR. However, other options must be provided as stated above. Thus, it is wrong to write "\fB\-\-dry\-run line\fR" if it meant "\fB\-\-dry\-run=line\fR".
+.PP
+It is impossible to mix one form with another. For instance, with the combination of the \fB\-l\fR and \fB\-h\fR options, the program would print an error message.
+.SH DESCRIPTION
+\fBproofread\fR corrects two kinds of formatting problems: spaces at the end of a line (EOL) and a missing newline at the end of a file (EOF). These EOL and EOF problems can be addressed with the \fB\-l\fR and \fB\-f\fR options, respectively.
+.PP
+Precisely speaking, a "space" can be either a space(' ') or a tab('\\t'). Also, by a "newline", it means a line feed('\\n'). If a carriage return('\\r') is seen, the program behaves as if the character does not exist.
+.PP
+In that \fB\-l\fR and \fB\-f\fR are both optional, this program does not inspect its input against the condition not requested. What this implies is that if neither were specified, then it would print its output untouched.
+.SH USAGE
+The behavior of this program falls into two categories: a dry\-run and an actual run.
+.PP
+When this program gets an execution with the \fB\-\-dry\-run\fR option specified, the program prints what it would have fixed in an actual run to the \fBstandard output\fR. Otherwise, it performs an actual run and fix the problems requested for it to handle.
+.PP
+In the presence of the \fB\-\fR option, it takes its input from the \fBstandard input\fR and prints the result to the \fBstandard output\fR. On the other hand, if the \fB+\fR option is specified, then the program gets the input from the file(s) which are specified after this option and it writes each result to each file. If the \fB\-\-keep\fR option is specified with \fB+\fR, then the input files are kept under a given directory, which defaults to "bak/" unless provided. Otherwise, the original files are overwritten with the corresponding output. The filenames are separated with a space. Incidentally, it is encouraged to place the \fB\-\-\fR marker between "\fB+\fR" and filenames so as to distinguish options from filenames. Meanwhile, the program defaults to "\fB\-\fR" if neither option is specified.
+.PP
+Please note that if \fB\-\-keep\fR were specified and the filename had a directory portion, that part would be removed. For example, the following invocation
+.RS
+.sp
+$ proofread --keep=mybackup + -- dir/a.txt
+.sp
+.RE
+would result in "mybackup/a.txt" if everything went well.
+.PP
+If the directory name provided to \fB\-\-keep\fR does not exist, the programs exits with failure. In such a case, the input files remain intact since the program does not directly edit the input file. Instead, the program writes to a temporary file, moves the original file under the specified directory, and gives the temp file the name of the input file. The name of temporary files is made by appending the string "\&.prfrd\&.tmp" to the input file name (including the extension, if any).
+.PP
+Incidentally, if you are going to make an actual run, especially with the \fB\+\fR option, i.e. "overwriting option", it is highly recommended to make a dry\-run before doing so in order to see what are to be affected.
+.PP
+If multiple files are provided, each file gets an inspection with the options given in the order filenames are specified.
+.PP
+An example dry\-run session is shown below:
+.RS
+.sp
+.nf
+$ proofread \-lf \-\-dry\-run \- < helloworld\&.c
+> proofread \-l \-f \-\-dry\-run=full \-
+=================================================
+   1|#include <stdio\&.h>
+   2|
+   3|int main(void) {
+   4|   puts("Hello, World!");
+   5|   return 0;  3
+   6|}
+   7|\\n
+.fi
+.sp
+.RE
+Here, the program reads the input from stdin due to the \fB\-\fR option. Also, by the \fB\-l\fR option, it tests whether there are no redundant spaces at EOL and by \fB\-f\fR, it checks if the last line ends with a newline. It is observed that line 5 and 6 are problematic in the light of the former having three spaces at EOL and the latter not having a newline at EOF. In order to show the result of this inspection, the program highlights the three spaces with a red background and writes the number of spaces at the end of the line, and it writes "\\n" at the end of the file and highlights it with a green background.
+.SH OPTIONS
+.IP \fB\-l\fR
+Removes unnecessary spaces (if any) before the end of a line.
+.IP \fB\-f\fR
+Puts a newline before the end of a file if there isn't.
+.IP "\fB\-\-dry\-run\fR, \fB\-\-dry\-run=\fR(\fBfull\fR|\fBline\fR)"
+Makes a dry\-run. Defaults to "\fBfull\fR" if specified without a value. \fBfull\fR causes the whole file to be printed, whereas \fBline\fR prints only lines with a problem.
+.IP \fB\-\fR
+Uses stdin as a input.
+.IP \fB+\fR
+Uses the content of file(s) as a input.
+.IP \fB\-\-\fR
+Denotes the end of options.
+.IP <\fIfile\fR>\&...
+Represents filename(s). Note that this does not include directory names.
+.IP "\fB\-\-keep\fR, \fB\-\-keep=\fR<\fIpath\fR>"
+Keeps the original file under the specified directory. Defaults to "bak/" if the value is not provided.
+.IP \fB\-\-mute\fR
+Suppresses the rename/remove notification when such actions happen.
+.IP "\fB\-h\fR, \fB\-\-help\fR"
+Prints the manual you are reading know.
+.IP \fB\-v\fR
+Given once, prints the version of this program. Given twice, prints the information related to this program. Meanwhile, a question mark hangs over this option being given three times. Let's leave it as the delight of when executed for real. Suffice it to say that you'll like it.
+.SH EXAMPLES
+.B "* Checking for EOL and EOF Problems"
+.RS
+.sp
+$ proofread \-lf \-\-dry-run=line \- < input\&.txt
+.sp
+.RE
+With \fIinput\&.txt\fR redirected, the program checks whether there are EOL and EOF problems and prints the result of the inspection to the standard output.
+.PP
+.B "* Checking for Multiple Files"
+.RS
+.sp
+$ proofread \-lf \-\-dry\-run=line + \-\- a\&.txt b\&.txt c\&.txt
+.sp
+.RE
+The program reads the three files and checks for each file whether it has EOL and EOF problems. The result is printed to stdout file by file.
+.PP
+.B "* Fixing EOL and EOF Problems"
+.RS
+.sp
+$ proofread \-lf + \-\- input\&.txt
+.sp
+.RE
+The program reads one file, which is \fIinput\&.txt\fR, and fixes EOL and EOF problems in that file. Notice that this operation modifies the file.
+.PP
+.B "* Keeping the Original File under a Specific Directory"
+.RS
+.sp
+$ proofread \-lf \-\-keep=backup/ + \-\- input\&.txt
+.sp
+.RE
+The program reads \fIinput\&.txt\fR and fixes EOL and EOF problems in that file. After the correction, it saves the original file under the "backup/" directory.
+.PP
+.B "* Setting the Program as a Filter"
+.sp
+It is useful to have this program as a "clean" filter in \fBgit\fR(1) so that it "proofreads" text files before they are copied into the staging area. For example, in order to apply this program onto every C files, one may want to write this line into either \fI\&.gitattributes\fR or \fI\&.git/info/attributes\fR:
+.RS
+.sp
+*\&.c filter=c13an3r
+.sp
+.RE
+In this example, the name of the filter is set to "cl3an3r". After that, executing the following commands finishes the setting.
+.RS
+.sp
+.nf
+$ git config --global filter\&.c13an3r\&.clean 'proofread \-lf \-'
+$ git config --global filter\&.c13an3r\&.smudge cat
+.fi
+.sp
+.RE
+It is possible to check to make sure it is in action. Suppose "argparse\&.c" is an untracked file:
+.RS
+.sp
+.nf
+$ echo 'int flag = 0;   ' > argparse\&.c
+$ git add argparse\&.c
+$ git diff \-\-staged \-\-check
+.fi
+.sp
+.RE
+One can see that nothing is printed since the filter has removed the trailing spaces.
+.SH EXIT STATUS
+The program exits with EXIT_SUCCESS on normal status. Otherwise, EXIT_FAILURE.
+.SH FILES
+<\fIfile\fR>\fB.prfrd.tmp\fR
+.RS
+As mentioned above, it is a temporary file created during the fix. Whether this file is deleted or not depends on whether the \fB\-\-keep\fR option is present or not.
+.RE
+.I dat/proofread\&.1
+.RS
+The manual page file. Used when the \fB\-\-help\fR option is specified.
+.RE
+.I dat/proofread\&.1\&.txt
+.RS
+The text version of the manual page. The program falls back to this file when \fBman\fR(1) is not available.
+.RE
+.I dat/version\&.txt
+.RS
+A text file containing the version of this program.
+.RE
+.SH NOTES
+I took it into account--at least I think so--executing this program under the Windows environment, but I haven't tested it since I don't have a C compiler installed in my machine which can make an .exe file.
+.SH BUGS
+As far as I know, there are no known bugs as of now. If there are, it would be greatly appreciated if you told me about it.
+.SH AUTHOR
+Developed by Doohyeon Won (logicseeker@naver\&.com)
+.PP
+For more information, please visit the GitHub repository: \fIhttps://github\&.com/logic\-finder/proofread\fR.
+.SH SEE ALSO
+\fBgitattributes\fR(5)
