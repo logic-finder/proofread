@@ -60,3 +60,6 @@ WORKING DIRECTORY  -->  CLEAN FILTER  -->  INDEX
  a.txt (original)  -->   "proofread"  -->  a.txt (fixed)
 ```
 It is useful to have this program as a "clean" filter in git so that it "proofreads" text files before they are copied into the staging area. Please consult the manual page for more information.
+
+## Verification on Tags and Commits
+If one is in need of verifying the tags and commits, please type `git show maintainer-pgp-pub` and follow the instruction written in it.
