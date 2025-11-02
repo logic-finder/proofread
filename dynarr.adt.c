@@ -53,6 +53,11 @@ extern unsigned int dynarr_len(dynarr_t *dynarr) {
    return dynarr->len;
 }
 
+extern void dynarr_destroy(dynarr_t *dynarr) {
+   free(dynarr->arr);
+   free(dynarr);
+}
+
 static void dynarr_expand(dynarr_t *dynarr) {
    dynarr->limit *= 2;
    dynarr->arr = srealloc(dynarr->arr, dynarr->limit);

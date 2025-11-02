@@ -50,4 +50,10 @@ void *dynarr_get(dynarr_t *dynarr, unsigned int idx);
  */
 unsigned int dynarr_len(dynarr_t *dynarr);
 
+/**
+ * @brief `dynarr_destroy` frees the object.
+ * @param dynarr the array
+ */
+void dynarr_destroy(dynarr_t *dynarr);
+
 #endif
