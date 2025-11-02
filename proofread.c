@@ -30,7 +30,7 @@ int main(int argc, const char *argv[]) {
    proofread(of, filenames, keeppath);
 
    free(of);
-   free(filenames);
+   dynarr_destroy(filenames);
    return 0;
 }
 
