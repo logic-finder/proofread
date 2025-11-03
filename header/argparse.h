@@ -21,7 +21,9 @@ typedef struct optflg {
       owf: 1,   // +
       eoo: 1,   // --
       kep: 1,   // --keep
-      mut: 1;   // --mute
+      mut: 1,   // --mute
+      cln: 1,   // --clean
+      smg: 1;   // --smudge
 } optflg_t;
 
 /**

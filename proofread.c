@@ -36,6 +36,8 @@ int main(int argc, const char *argv[]) {
 
 // `run_dry` gets an invocation when `--dry-run` is specified.
 static void run_dry(optflg_t *of, dynarr_t *filenames);
+// `run_clean` gets an invocation when `--clean` is specified.
+static void run_clean(dynarr_t *filenames);
 // `run_actual` gets an invocation when it performs real tasks.
 static void run_actual(optflg_t *of, dynarr_t *filenames, const char *keeppath);
 
@@ -43,6 +45,10 @@ static void proofread(optflg_t *of, dynarr_t *filenames, const char *keeppath) {
    if (of->drn)
       run_dry(of, filenames);
    else
+   if (of->cln)
+      run_clean(filenames);
+   else
+   /* --smudge also falls into here. */
       run_actual(of, filenames, keeppath);
 }
 
@@ -252,6 +258,70 @@ static bool handle_eofdrn(int numline, int lastmod, bool dryrun_line, bool newli
       ret = false;
 
    return ret;
+}
+
+// `handle_eolcln` fixes the eol problem and writes to file and stdout.
+static void handle_eolcln(char *line, FILE *dest1, FILE *dest2);
+
+static void run_clean(dynarr_t *filenames) {
+   /*
+   - supposes -l -f --mute.
+   - reads from stdin and writes to stdout and a file.
+   */
+   char *destname, *tempname;
+   FILE *temp;
+
+   destname = *((char **) dynarr_get(filenames, 0));
+   tempname = concat(2, destname, ".prfrd.tmp");
+   temp = sfopen(tempname, "w");
+
+   char *line, *crnt, *prev;
+   bool newline_at_eol;
+
+   crnt = NULL;
+
+   while (!readln(stdin, &line)) {
+      newline_at_eol = lastch(line) == '\n';
+      handle_eolcln(line, stdout, temp);
+      prev = crnt;
+      crnt = line;
+      free(prev);
+   }
+
+   if (crnt && !newline_at_eol) {
+      sfputc(stdout, '\n');
+      sfputc(temp, '\n');
+   }
+
+   free(crnt);
+   sfclose(temp);
+   sremove(destname);
+   srename(tempname, destname);
+   free(tempname);
+}
+
+static void handle_eolcln(char *line, FILE *dest1, FILE *dest2) {
+   int len, span;
+   bool cond;
+
+   len = strlen(line);
+   span = cntspn(line);
+
+   if (span) {
+      cond = lastch(line) == '\n';
+      if (cond) span++;
+      line[len - span] = '\0';
+      sfputs(dest1, line);
+      sfputs(dest2, line);
+      if (cond) {
+         sfputc(dest1, '\n');
+         sfputc(dest2, '\n');
+      }
+   }
+   else {
+      sfputs(dest1, line);
+      sfputs(dest2, line);
+   }
 }
 
 // `apply_actual` performs a real task on a file based on `of`.
