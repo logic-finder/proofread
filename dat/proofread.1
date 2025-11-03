@@ -1,4 +1,4 @@
-.TH proofread 1 "10/26/2025" "v1\&.0\&.0"
+.TH proofread 1 "11/02/2025" "v1\&.0\&.0-3-g3d9031a"
 .SH NAME
 proofread \- removes spaces at EOL and adds a newline at EOF
 .SH SYNOPSIS
@@ -6,6 +6,7 @@ proofread \- removes spaces at EOL and adds a newline at EOF
 \fBproofread\fR [\fB\-l\fR] [\fB\-f\fR] [\fB\-\-dry\-run\fR[\fB=\fR(\fBfull\fR|\fBline\fR)]] [\fB\-\fR]
 \fBproofread\fR [\fB\-l\fR] [\fB\-f\fR] [\fB\-\-dry\-run\fR[\fB=\fR(\fBfull\fR|\fBline\fR)]] [\fB\-\-mute\fR] \fB+\fR [\fB\-\-\fR] \fI<file>\fR\&...
 \fBproofread\fR [\fB\-l\fR] [\fB\-f\fR] [\fB\-\-keep\fR[\fB=\fI<path>\fR]] [\fB\-\-mute\fR] \fB+\fR [\fB\-\-\fR] \fI<file>\fR\&...
+\fBproofread\fR (\fB\-\-clean=\fI<file>\fR | \fB\-\-smudge\fR)
 \fBproofread\fR (\fB\-h\fR | \fB\-\-help\fR)
 \fBproofread\fR (\fB\-v\fR | \fB\-vv\fR | \fB\-vvv\fR)
 .fi
@@ -77,6 +78,10 @@ Represents filename(s). Note that this does not include directory names.
 Keeps the original file under the specified directory. Defaults to "bak/" if the value is not provided.
 .IP \fB\-\-mute\fR
 Suppresses the rename/remove notification when such actions happen.
+.IP \fB\-\-clean=\fR<\fIfile\fR>
+Is meant to be used as a "clean" filter; refer to the EXAMPLES section below. Implies \fB\-l\fR, \fB\-f\fR, and \fB\-\-mute\fR. Reads from stdin and fixes the EOL and EOF problems in it. Writes the result to stdout and the file specified.
+.IP \fB\-\-smudge\fR
+Is meant to be used as a "smudge" filter; refer to the EXAMPLES section below. In effect, the call \fBproofread \-\-smudge \fR is equivalent to the \fBproofread \-\fR. In the other words, it does not fix anything; it outputs the input unmodified.
 .IP "\fB\-h\fR, \fB\-\-help\fR"
 Prints the manual you are reading know.
 .IP \fB\-v\fR
@@ -126,8 +131,9 @@ In this example, the name of the filter is set to "cl3an3r". After that, executi
 .RS
 .sp
 .nf
-$ git config --global filter\&.c13an3r\&.clean 'proofread \-lf \-'
-$ git config --global filter\&.c13an3r\&.smudge cat
+$ git config --global filter\&.c13an3r\&.clean 'proofread \-\-clean=%f'
+$ git config --global filter\&.c13an3r\&.smudge 'proofread \-\-smudge'
+$ git config --global filter\&.c13an3r\&.required true
 .fi
 .sp
 .RE
