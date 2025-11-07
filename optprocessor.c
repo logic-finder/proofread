@@ -48,7 +48,7 @@ static void handle_hlpopt(void) {
       ret = system(NULL);  /* 0 non-zero-value(1) */
       if (!ret) print_manual();
       ret = system("man dat" DIRSEP "proofread.1"); /* 0 1 2 3 16 */
-      if (!ret) exit(EXIT_FAILURE);
+      if (!ret) fatal("proofread: failed to execute man.");
       exit(EXIT_SUCCESS);
    #else
       print_manual();
@@ -128,7 +128,7 @@ static void validate_opts(optflg_t *of, dynarr_t *filenames) {
 
    len = dynarr_len(filenames);
    if (of->owf && len == 0)
-      fatal("no files provided after +.");
+      fatal("proofread: no files provided after +.");
 }
 
 static void init_opts(optflg_t *of) {

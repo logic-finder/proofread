@@ -231,7 +231,7 @@ static unsigned int cntdgt(unsigned int num) {
    int cnt;
 
    cnt = sprintf(buf, "%d", num);
-   if (cnt < 0) exit(EXIT_FAILURE);
+   if (cnt < 0) vfatal("proofread: %s: buffer is not written.", __func__);
 
    return cnt;
 }
@@ -386,7 +386,7 @@ static void cleanup(optflg_t *of, const char *srcname, const char *destname, con
 
       if (rename(srcname, newname)) {
          sremove(destname);
-         vfatal("unable to move %s to %s; "
+         vfatal("proofread: unable to move %s to %s; "
             "maybe the given directory \"%s\" does not exist?",
             srcname, newname, keeppath);
       }

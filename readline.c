@@ -1,9 +1,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "fatal.h"
 #include "strutil.h"
 #include "wrapper.h"
 #include "readline.h"
+
+char *errmsg = "proofread: readln: unable to read.";
 
 extern int readln(FILE *fp, char **line) {
    // tests whether there is nothing to read
@@ -11,7 +14,7 @@ extern int readln(FILE *fp, char **line) {
 
    ch = getc(fp);
    if (ch == EOF) {
-      if (ferror(fp)) exit(EXIT_FAILURE);
+      if (ferror(fp)) fatal(errmsg);
       *line = NULL;
       return 1;
    }
@@ -36,7 +39,7 @@ extern int readln(FILE *fp, char **line) {
       ch = getc(fp);
 
       if (ch == EOF) {
-         if (ferror(fp)) exit(EXIT_FAILURE);
+         if (ferror(fp)) fatal(errmsg);
          buf[pos] = '\0';
          *line = buf;
          return 0;

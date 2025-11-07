@@ -72,7 +72,7 @@ extern dynarr_t *parse_args(optflg_t *of, const char *argv[], const char **keepp
       else
       // handles unrecognizable arguments
       if (arg[0] == '-')
-         vfatal("unable to recognize this option: %s.\n%s", arg, warnmsg);
+         vfatal("proofread: unable to recognize this option: %s.\n%s", arg, warnmsg);
       else
       // takes the arg as a filename
          parse_filenm(arg, of, files);
@@ -115,16 +115,16 @@ static void parse_shrtop(const char *arg, optflg_t *of) {
 
    for (i = 1; (ch = arg[i]); i++) {
       if (ch == 'l') {
-         if (of->eol) fatal("-l seen already.");
-         if (of->hlp) fatal("-h with -l.");
-         if (of->vsn) fatal("-v with -l.");
+         if (of->eol) fatal("proofread: -l seen already.");
+         if (of->hlp) fatal("proofread: -h with -l.");
+         if (of->vsn) fatal("proofread: -v with -l.");
          of->eol = true;
       }
       else
       if (ch == 'f') {
-         if (of->eof) fatal("-f seen already.");
-         if (of->hlp) fatal("-h with -f.");
-         if (of->vsn) fatal("-v with -f.");
+         if (of->eof) fatal("proofread: -f seen already.");
+         if (of->hlp) fatal("proofread: -h with -f.");
+         if (of->vsn) fatal("proofread: -v with -f.");
          of->eof = true;
       }
       else
@@ -134,34 +134,34 @@ static void parse_shrtop(const char *arg, optflg_t *of) {
       }
       else
       if (ch == 'v') {
-         if (of->eol) fatal("-l with -v.");
-         if (of->eof) fatal("-f with -v.");
-         if (of->hlp) fatal("-h with -v.");
-         if (of->drn) fatal("--dry-run with -v.");
-         if (of->sto) fatal("- with -v.");
-         if (of->owf) fatal("+ with -v.");
+         if (of->eol) fatal("proofread: -l with -v.");
+         if (of->eof) fatal("proofread: -f with -v.");
+         if (of->hlp) fatal("proofread: -h with -v.");
+         if (of->drn) fatal("proofread: --dry-run with -v.");
+         if (of->sto) fatal("proofread: - with -v.");
+         if (of->owf) fatal("proofread: + with -v.");
          if (of->vsn == 3)
-            fatal("-v specified more than three times.");
-         if (of->kep) fatal("--keep with -v.");
-         if (of->mut) fatal("--mute with -v.");
+            fatal("proofread: -v specified more than three times.");
+         if (of->kep) fatal("proofread: --keep with -v.");
+         if (of->mut) fatal("proofread: --mute with -v.");
          of->vsn++;
       }
       else
       // handles unrecognizable arguments
-         vfatal("unable to recognize this option: -%c.\n%s", ch, warnmsg);
+         vfatal("proofread: unable to recognize this option: -%c.\n%s", ch, warnmsg);
    }  /* end of loop */
 }
 
 static void validate_hlpopt(optflg_t *of) {
-   if (of->eol) fatal("-l with -h.");
-   if (of->eof) fatal("-f with -h.");
-   if (of->hlp) fatal("-h seen already.");
-   if (of->vsn) fatal("-v with -h.");
-   if (of->drn) fatal("--dry-run with -h.");
-   if (of->sto) fatal("- with -h.");
-   if (of->owf) fatal("+ with -h.");
-   if (of->kep) fatal("--keep with -h.");
-   if (of->mut) fatal("--mute with -h.");
+   if (of->eol) fatal("proofread: -l with -h.");
+   if (of->eof) fatal("proofread: -f with -h.");
+   if (of->hlp) fatal("proofread: -h seen already.");
+   if (of->vsn) fatal("proofread: -v with -h.");
+   if (of->drn) fatal("proofread: --dry-run with -h.");
+   if (of->sto) fatal("proofread: - with -h.");
+   if (of->owf) fatal("proofread: + with -h.");
+   if (of->kep) fatal("proofread: --keep with -h.");
+   if (of->mut) fatal("proofread: --mute with -h.");
 }
 
 static void parse_longop(const char *arg, optflg_t *of, const char **keeppath) {
@@ -170,10 +170,10 @@ static void parse_longop(const char *arg, optflg_t *of, const char **keeppath) {
 
    // detects --dry-run
    if (!strncmp(arg, "dry-run", 7)) {
-      if (of->hlp) fatal("-h with --dry-run.");
-      if (of->vsn) fatal("-v with --dry-run.");
-      if (of->drn) fatal("--dry-run seen already.");
-      if (of->kep) fatal("--keep with --dry-run.");
+      if (of->hlp) fatal("proofread: -h with --dry-run.");
+      if (of->vsn) fatal("proofread: -v with --dry-run.");
+      if (of->drn) fatal("proofread: --dry-run seen already.");
+      if (of->kep) fatal("proofread: --keep with --dry-run.");
 
       arg += 7;
       if (strlen(arg) > 0) {
@@ -183,7 +183,7 @@ static void parse_longop(const char *arg, optflg_t *of, const char **keeppath) {
          if (!strcmp(arg, "=line"))
             of->lne = true;
          else
-            vfatal("unable to recognize the suboption: %s.\n%s", arg, warnmsg);
+            vfatal("proofread: unable to recognize the suboption: %s.\n%s", arg, warnmsg);
       }
 
       of->drn = true;
@@ -197,16 +197,16 @@ static void parse_longop(const char *arg, optflg_t *of, const char **keeppath) {
    else
    // detects --keep
    if (!strncmp(arg, "keep", 4)) {
-      if (of->hlp) fatal("-h with --keep.");
-      if (of->vsn) fatal("-v with --keep.");
-      if (of->drn) fatal("--dry-run with --keep.");
-      if (of->sto) fatal("- with --keep.");
-      if (of->kep) fatal("--keep seen already.");
+      if (of->hlp) fatal("proofread: -h with --keep.");
+      if (of->vsn) fatal("proofread: -v with --keep.");
+      if (of->drn) fatal("proofread: --dry-run with --keep.");
+      if (of->sto) fatal("proofread: - with --keep.");
+      if (of->kep) fatal("proofread: --keep seen already.");
 
       arg += 4;
       if (strlen(arg) > 0) {
          if (arg[0] != '=')
-            fatal("--keep has an incorrect syntax.");
+            fatal("proofread: --keep has an incorrect syntax.");
          *keeppath = arg + 1;
       }
       else
@@ -217,38 +217,38 @@ static void parse_longop(const char *arg, optflg_t *of, const char **keeppath) {
    else
    // detects --mute
    if (!strncmp(arg, "mute", 4)) {
-      if (of->hlp) fatal("-h with --mute.");
-      if (of->vsn) fatal("-v with --mute.");
-      if (of->sto) fatal("- with --mute.");
+      if (of->hlp) fatal("proofread: -h with --mute.");
+      if (of->vsn) fatal("proofread: -v with --mute.");
+      if (of->sto) fatal("proofread: - with --mute.");
       of->mut = true;
    }
    else
    // handles unrecognizable arguments
-      vfatal("unable to recognize this option: --%s.\n%s", arg, warnmsg);
+      vfatal("proofread: unable to recognize this option: --%s.\n%s", arg, warnmsg);
 }
 
 static void parse_wrtmod(const char *arg, optflg_t *of) {
    if (arg[0] == '-') {
-      if (of->hlp) fatal("-h with -.");
-      if (of->vsn) fatal("-v with -.");
-      if (of->kep) fatal("--keep with -.");
-      if (of->mut) fatal("--mute with -.");
+      if (of->hlp) fatal("proofread: -h with -.");
+      if (of->vsn) fatal("proofread: -v with -.");
+      if (of->kep) fatal("proofread: --keep with -.");
+      if (of->mut) fatal("proofread: --mute with -.");
       of->sto = true;
    }
    else {  /* '+' */
-      if (of->hlp) fatal("-h with +.");
-      if (of->vsn) fatal("-v with +.");
+      if (of->hlp) fatal("proofread: -h with +.");
+      if (of->vsn) fatal("proofread: -v with +.");
       of->owf = true;
    }
 }
 
 static void parse_endopt(optflg_t *of) {
-   if (of->hlp) fatal("-h with --.");
-   if (of->vsn) fatal("-h with --.");
+   if (of->hlp) fatal("proofread: -h with --.");
+   if (of->vsn) fatal("proofread: -h with --.");
    of->eoo = true;
 }
 
 void parse_filenm(const char *arg, optflg_t *of, dynarr_t *files) {
-   if (!of->owf) fatal("+ option must be present before a filename.");
+   if (!of->owf) fatal("proofread: + option must be present before a filename.");
    dynarr_append(files, &arg);
 }

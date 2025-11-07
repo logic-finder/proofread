@@ -6,19 +6,19 @@
  ************/
 extern void *smalloc(size_t siz) {
    void *ret = malloc(siz);
-   if (!ret) exit(EXIT_FAILURE);
+   if (!ret) fatal("proofread: malloc error.");
    return ret;
 }
 
 extern void *srealloc(void *ptr, size_t siz) {
    ptr = realloc(ptr, siz);
-   if (!ptr) exit(EXIT_FAILURE);
+   if (!ptr) fatal("proofread: realloc error.");
    return ptr;
 }
 
 extern void *scalloc(size_t n, size_t siz) {
    void *ret = calloc(n, siz);
-   if (!ret) exit(EXIT_FAILURE);
+   if (!ret) fatal("proofread: calloc error.");
    return ret;
 }
 
@@ -34,13 +34,13 @@ extern FILE *sfopen(const char *filename, const char *mode) {
 extern void sfclose(FILE *fp) {
    if (fclose(fp) != EOF)
       return;
-   fatal("unable to close a stream.");
+   fatal("proofread: unable to close a stream.");
 }
 
 #if 0
 extern FILE *stmpfile(void) {
    FILE *fp = tmpfile();
-   if (!fp) fatal("unable to open a temporary file.");
+   if (!fp) fatal("proofread: unable to open a temporary file.");
    return fp;
 }
 #endif
@@ -48,28 +48,28 @@ extern FILE *stmpfile(void) {
 extern void sremove(const char *filename) {
    if (!remove(filename))
       return;
-   vfatal("unable to remove the file: %s.", filename);
+   vfatal("proofread: unable to remove the file: %s.", filename);
 }
 
 extern void srename(const char *old, const char *new) {
    if (!rename(old, new))
       return;
-   vfatal("unable to rename %s to %s.", old, new);
+   vfatal("proofread: unable to rename %s to %s.", old, new);
 }
 
 extern void sfputs(FILE *stream, const char *line) {
    if (fputs(line, stream) == EOF)
-      exit(EXIT_FAILURE);
+      fatal("proofread: fputs error.");
 }
 
 extern void sputs(const char *line) {
    if (puts(line) == EOF)
-      exit(EXIT_FAILURE);
+      fatal("proofread: puts error.");
 }
 
 extern void sfputc(FILE *stream, char c) {
    if (putc(c, stream) == EOF)
-      exit(EXIT_FAILURE);
+      fatal("proofread: fputc error.");
 }
 
 extern void ffmtwrt(FILE *stream, const char *format, ...) {
