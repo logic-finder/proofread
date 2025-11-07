@@ -68,6 +68,17 @@ int exist(void *arr, int esiz, int len, bool (*cb)(void *elem, int idx, void *ar
 char *escape(const char *str, char escaper, const char *from, const char *to);
 
 /**
+ * @brief `normalize` resolves specific characters represented by `from` into respective characters that are represented by `to` and that are prefixed by a character `escaper`.
+ * @param str a string
+ * @param escaper a escape character
+ * @param from a string consisting of characters to be resolved
+ * @param to a string consisting of characters which the target characters to become
+ * @return a normalized string
+ * @note The return value needs to be freed later.
+ */
+char *normalize(const char *str, char escaper, const char *from, const char *to);
+
+/**
  * @brief `lastch` returns the last character in `line`, hence the name.
  * @param line a string
  * @return a last character

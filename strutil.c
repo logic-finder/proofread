@@ -134,5 +134,30 @@ extern char *escape(const char *str, char escaper, const char *from, const char 
    return buf;
 }
 
+extern char *normalize(const char *str, char escaper, const char *from, const char *to) {
+   int p, q, len, cnt;
+   char *buf;
+   ptrdiff_t i;
+
+   len = strlen(str);
+   cnt = 0;
+   for (p = 0; p < len; p++)
+      if (match(str[p], from))
+         cnt++;
+
+   buf = smalloc(len + cnt + 1);
+   for (p = q = 0; p < len; p++) {
+      if (match(str[p], from)) {
+         i = strchr(from, str[p]) - from;
+         buf[q++] = escaper;
+         buf[q++] = to[i];
+      }
+      else buf[q++] = str[p];
+   }
+   buf[q] = '\0';
+
+   return buf;
+}
+
 // inline function
 extern char lastch(const char *line);
