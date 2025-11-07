@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
 #include "strutil.h"
 #include "wrapper.h"
 
@@ -111,6 +112,26 @@ extern int exist(void *arr, int esiz, int len, bool (*cb)(void *, int, void *)) 
          return i;
 
    return -1;
+}
+
+extern char *escape(const char *str, char escaper, const char *from, const char *to) {
+   char *buf;
+   int p, q;
+   ptrdiff_t i;
+
+   buf = smalloc(strlen(str) + 1);
+   p = q = 0;
+   while (str[p] != '\0') {
+      if (str[p] == escaper && match(str[p + 1], from)) {
+         i = strchr(from, str[p + 1]) - from;
+         buf[q++] = to[i];
+         p += 2;
+      }
+      else buf[q++] = str[p++];
+   }
+   buf[q] = '\0';
+
+   return buf;
 }
 
 // inline function

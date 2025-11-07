@@ -57,6 +57,17 @@ bool endwth(char *target, char *against);
 int exist(void *arr, int esiz, int len, bool (*cb)(void *elem, int idx, void *arr));
 
 /**
+ * @brief `escape` resolves all of the escaped characters in the string `str`.
+ * @param str a string
+ * @param escaper a escape character
+ * @param from a string consisting of characters to be resolved
+ * @param to a string consisting of characters which the escaped characters to become
+ * @return a resolved string
+ * @note The return value needs to be freed later.
+ */
+char *escape(const char *str, char escaper, const char *from, const char *to);
+
+/**
  * @brief `lastch` returns the last character in `line`, hence the name.
  * @param line a string
  * @return a last character
