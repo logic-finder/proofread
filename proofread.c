@@ -231,7 +231,7 @@ static unsigned int cntdgt(unsigned int num) {
    int cnt;
 
    cnt = sprintf(buf, "%d", num);
-   if (cnt < 0) vfatal("proofread: %s: buffer is not written.", __func__);
+   if (cnt < 1) vfatal("proofread: %s: buffer is not written.", __func__);
 
    return cnt;
 }
