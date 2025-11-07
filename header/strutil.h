@@ -31,6 +31,15 @@ char *concat(int n, const char *base, ...);
 char *extfnm(const char *path);
 
 /**
+ * @brief `endwth` (ends with) determines whether `target` ends with `against`.
+ *    For instance, the call `endwth("argparse.c", ".c")` returns `true`.
+ * @param target a string to compare against
+ * @param against a string to compare with
+ * @return a Boolean value, i.e. `true` or `false`.
+ */
+bool endwth(char *target, char *against);
+
+/**
  * @brief `lastch` returns the last character in `line`, hence the name.
  * @param line a string
  * @return a last character

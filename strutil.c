@@ -85,5 +85,20 @@ extern char *extfnm(const char *path) {
    return filename;
 }
 
+extern bool endwth(char *target, char *against) {
+   int tlen, alen;
+
+   tlen = strlen(target);
+   alen = strlen(against);
+
+   if (alen > tlen)
+      return false;
+
+   // it is true that pos >= 0.
+   int pos = tlen - alen;
+
+   return !strcmp(&target[pos], against) ? true : false;
+}
+
 // inline function
 extern char lastch(const char *line);
