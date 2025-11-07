@@ -100,5 +100,18 @@ extern bool endwth(char *target, char *against) {
    return !strcmp(&target[pos], against) ? true : false;
 }
 
+extern int exist(void *arr, int esiz, int len, bool (*cb)(void *, int, void *)) {
+   if (len <= 0)
+      return -2;
+
+   int i;
+
+   for (i = 0; i < len; i++)
+      if (cb((char *) arr + i * esiz, i, arr))
+         return i;
+
+   return -1;
+}
+
 // inline function
 extern char lastch(const char *line);
