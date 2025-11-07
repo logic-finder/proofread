@@ -244,7 +244,7 @@ static void parse_wrtmod(const char *arg, optflg_t *of) {
 
 static void parse_endopt(optflg_t *of) {
    if (of->hlp) fatal("proofread: -h with --.");
-   if (of->vsn) fatal("proofread: -h with --.");
+   if (of->vsn) fatal("proofread: -v with --.");
    of->eoo = true;
 }
 
