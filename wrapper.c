@@ -27,10 +27,7 @@ extern void *scalloc(size_t n, size_t siz) {
  ***********/
 extern FILE *sfopen(const char *filename, const char *mode) {
    FILE *fp = fopen(filename, mode);
-   if (!fp) {
-      vfatal("unable to open the file: %s.", filename);
-      exit(EXIT_FAILURE);
-   }
+   if (!fp) vfatal("unable to open the file: %s.", filename);
    return fp;
 }
 
@@ -38,16 +35,12 @@ extern void sfclose(FILE *fp) {
    if (fclose(fp) != EOF)
       return;
    fatal("unable to close a stream.");
-   exit(EXIT_FAILURE);
 }
 
 #if 0
 extern FILE *stmpfile(void) {
    FILE *fp = tmpfile();
-   if (!fp) {
-      fatal("unable to open a temporary file.");
-      exit(EXIT_FAILURE);
-   }
+   if (!fp) fatal("unable to open a temporary file.");
    return fp;
 }
 #endif
@@ -56,14 +49,12 @@ extern void sremove(const char *filename) {
    if (!remove(filename))
       return;
    vfatal("unable to remove the file: %s.", filename);
-   exit(EXIT_FAILURE);
 }
 
 extern void srename(const char *old, const char *new) {
    if (!rename(old, new))
       return;
    vfatal("unable to rename %s to %s.", old, new);
-   exit(EXIT_FAILURE);
 }
 
 extern void sfputs(FILE *stream, const char *line) {
