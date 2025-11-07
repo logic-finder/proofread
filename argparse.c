@@ -248,7 +248,7 @@ static void parse_endopt(optflg_t *of) {
    of->eoo = true;
 }
 
-void parse_filenm(const char *arg, optflg_t *of, dynarr_t *files) {
+static void parse_filenm(const char *arg, optflg_t *of, dynarr_t *files) {
    if (!of->owf) fatal("proofread: + option must be present before a filename.");
    dynarr_append(files, &arg);
 }
