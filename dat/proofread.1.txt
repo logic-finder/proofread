@@ -27,6 +27,8 @@ DESCRIPTION
        In that -l and -f are both optional, this program does not inspect its input against  the  condition  not  re‐
        quested. What this implies is that if neither were specified, then it would print its output untouched.
 
+       If the program is fed an empty file, it does nothing.
+
 USAGE
        The behavior of this program falls into two categories: a dry-run and an actual run.
 
@@ -167,8 +169,7 @@ EXIT STATUS
 
 FILES
        <file>.prfrd.tmp
-              As mentioned above, it is a temporary file created during the fix. Whether this file is deleted or  not
-              depends on whether the --keep option is present or not.
+              As mentioned above, it is a temporary file created during the fix.
        .prfrd.short-status
        .prfrd.checkout-index-temp
        .prfrd.hash-object-temp
@@ -182,7 +183,7 @@ FILES
               A text file containing the version of this program.
 
 NOTES
-       I  took  it  into  account--at  least  I think so--executing this program under the Windows environment, but I
+       I took it into account--at least I think so--executing this program  under  the  Windows  environment,  but  I
        haven't tested it since I don't have a C compiler installed in my machine which can make an .exe file.
 
 BUGS

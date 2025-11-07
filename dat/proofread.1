@@ -19,6 +19,8 @@ It is impossible to mix one form with another. For instance, with the combinatio
 Precisely speaking, a "space" can be either a space(' ') or a tab('\\t'). Also, by a "newline", it means a line feed('\\n'). If a carriage return('\\r') is seen, the program behaves as if the character does not exist.
 .PP
 In that \fB\-l\fR and \fB\-f\fR are both optional, this program does not inspect its input against the condition not requested. What this implies is that if neither were specified, then it would print its output untouched.
+.PP
+If the program is fed an empty file, it does nothing.
 .SH USAGE
 The behavior of this program falls into two categories: a dry\-run and an actual run.
 .PP
@@ -139,15 +141,15 @@ Sets the verbosity of the hook. The value of \fB1\fR means \fBtrue\fR and \fB0\f
 .SH EXIT STATUS
 The program exits with EXIT_SUCCESS on normal status. Otherwise, EXIT_FAILURE.
 .SH FILES
-<\fIfile\fR>\fB.prfrd.tmp\fR
+.I <file>\&.prfrd\&.tmp
 .RS
-As mentioned above, it is a temporary file created during the fix. Whether this file is deleted or not depends on whether the \fB\-\-keep\fR option is present or not.
+As mentioned above, it is a temporary file created during the fix.
 .RE
 .nf
-.I .prfrd.short-status
-.I .prfrd.checkout-index-temp
-.I .prfrd.hash-object-temp
-.I .merge_file_*
+.I \&.prfrd\&.short-status
+.I \&.prfrd\&.checkout-index-temp
+.I \&.prfrd\&.hash-object-temp
+.I \&.merge_file_*
 .fi
 .RS
 Temporary files used by the pre-commit hook. Deleted automatically.
