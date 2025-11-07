@@ -95,7 +95,7 @@ static char *ceasar(const char *msg, int shift);
 
 static void handle_vvvopt(void) {
    /* HINT: the number of ! */
-   sputs("sohdvh pduub ph xwvxpl dred fkdq vkludvx dcxvd fkdq nrchnl xl fkdq!!!");
+   sputs("tpiewi qevvc qi esfe edywe ym erh rexwy gler!!!!");
    exit(EXIT_SUCCESS);
 }
 
