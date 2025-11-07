@@ -1,4 +1,4 @@
-.TH proofread 1 "10/26/2025" "v1\&.0\&.0"
+.TH proofread 1 "11/07/2025" "v1\&.0\&.0"
 .SH NAME
 proofread \- removes spaces at EOL and adds a newline at EOF
 .SH SYNOPSIS
@@ -114,40 +114,43 @@ $ proofread \-lf \-\-keep=backup/ + \-\- input\&.txt
 .RE
 The program reads \fIinput\&.txt\fR and fixes EOL and EOF problems in that file. After the correction, it saves the original file under the "backup/" directory.
 .PP
-.B "* Setting the Program as a Filter"
+.B "* Setting Up a Pre-commit Hook"
 .sp
-It is useful to have this program as a "clean" filter in \fBgit\fR(1) so that it "proofreads" text files before they are copied into the staging area. For example, in order to apply this program onto every C files, one may want to write this line into either \fI\&.gitattributes\fR or \fI\&.git/info/attributes\fR:
-.RS
-.sp
-*\&.c filter=c13an3r
-.sp
-.RE
-In this example, the name of the filter is set to "cl3an3r". After that, executing the following commands finishes the setting.
+There is a pre-commit hook which is executed automatically when one executes \fBgit commit\fR. This hook executes \fBproofread\fR on the files which are staged (by a prior \fBgit add\fR) and whose state is modified or newly added. Its behavior differs depending on whether the file has local changes or not. If it has, the hook updates the index only. Otherwise, the hook updates both the index and the worktree.
+.PP
+In order to use it, one must compile it first and place the executable under the \fIhooks\fR directory of the desired git repository:
 .RS
 .sp
 .nf
-$ git config --global filter\&.c13an3r\&.clean 'proofread \-lf \-'
-$ git config --global filter\&.c13an3r\&.smudge cat
+$ make hook EXT_LIST='".c", ".h"' SHUTUP=1
+$ cp hook/pre-commit \fI<dir>\fR
 .fi
 .sp
 .RE
-It is possible to check to make sure it is in action. Suppose "argparse\&.c" is an untracked file:
+When making the pre-commit hook, one can control two variables:
 .RS
 .sp
-.nf
-$ echo 'int flag = 0;   ' > argparse\&.c
-$ git add argparse\&.c
-$ git diff \-\-staged \-\-check
-.fi
+.IP \fBEXT_LIST\fR
+Defines the extensions to apply \fBproofread\fR. The value must be enclosed with a single-quote mark and each extension must be enclosed with a double-quote mark. If not specified, all of the files which meet the above conditions are subject to the application.
+.IP \fBSHUTUP\fR
+Sets the verbosity of the hook. The value of \fB1\fR means \fBtrue\fR and \fB0\fR, \fBfalse\fR.
 .sp
 .RE
-One can see that nothing is printed since the filter has removed the trailing spaces.
 .SH EXIT STATUS
 The program exits with EXIT_SUCCESS on normal status. Otherwise, EXIT_FAILURE.
 .SH FILES
 <\fIfile\fR>\fB.prfrd.tmp\fR
 .RS
 As mentioned above, it is a temporary file created during the fix. Whether this file is deleted or not depends on whether the \fB\-\-keep\fR option is present or not.
+.RE
+.nf
+.I .prfrd.short-status
+.I .prfrd.checkout-index-temp
+.I .prfrd.hash-object-temp
+.I .merge_file_*
+.fi
+.RS
+Temporary files used by the pre-commit hook. Deleted automatically.
 .RE
 .I dat/proofread\&.1
 .RS

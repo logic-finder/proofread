@@ -54,12 +54,18 @@ $ proofread -lf + -- input.txt
 $ proofread -lf --keep=backup/ + -- input.txt
 ```
 
-### As a Filter
+### Pre-commit Hook
+There is a way to apply **proofread** automatically, when `git commit` is executed, on the files which are staged (by a prior `git add`) and whose state is modified or newly added. The pre-commit hook does this task. Its behavior differs depending on whether the files has local changes or not. If it does, the hook updates the index only. Otherwise, the hook updates both the index and the worktree.
+
+In order to use it, the hook must be compiled and installed first:
 ```bash
-WORKING DIRECTORY  -->  CLEAN FILTER  -->  INDEX
- a.txt (original)  -->   "proofread"  -->  a.txt (fixed)
+$ make hook EXT_LIST='".c", ".h"' SHUTUP=1
+$ cp hook/pre-commit <dir>
 ```
-It is useful to have this program as a "clean" filter in git so that it "proofreads" text files before they are copied into the staging area. Please consult the manual page for more information.
+
+Two variables affect the behavior of the hook:
+- `EXT_LIST` defines the extensions to apply **proofread**. The value must be enclosed with a single-quote mark and each extension must be enclosed with a double-quote mark. If not specified, all of the files which meet the above conditions are subject to the application.
+- `SHUTUP` sets the verbosity of the hook. The value of **1** means **true** and **0**, **false**.
 
 ## Verification on Tags and Commits
 If one is in need of verifying the tags and commits, please type `git show maintainer-pgp-pub` and follow the instruction written in it.
