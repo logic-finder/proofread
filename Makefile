@@ -31,6 +31,9 @@ CPPFLAGS := -I $(headir)
 # COMPILATION #
 ###############
 # DEFAULT GOAL
+.PHONY: all
+all: $(exec)
+
 $(exec): $(objects)
 	$(CC) $^ $(CFLAGS) -o $@
 
