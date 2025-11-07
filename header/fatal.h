@@ -4,15 +4,15 @@
 #include <stdarg.h>
 
 /**
- * @brief `fatal` prints an error message `msg` to `stderr`.
- *    The string "fatal: " is prepended.
+ * @brief `fatal` prints an error message `msg` to `stderr`, exiting 1.
+ *    The string "fatal: " is prepended. A newline is appended at EOL.
  * @param msg an error message
  */
 void fatal(const char *msg);
 
 /**
- * @brief `vfatal` prints a format string `msg` to `stderr`.
- *    The string "fatal: " is prepended.
+ * @brief `vfatal` prints a format string `msg` to `stderr`, exiting 1.
+ *    The string "fatal: " is prepended. A newline is appended at EOL.
  * @param msg a format string
  * @param va variable number of arguments
  */
