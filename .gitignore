@@ -1,5 +1,7 @@
 proofread
 .object/*.o
 .depend/*.d
+hook/pre-commit
+hook/pre-commit.o
 bak/
 bin/

@@ -7,10 +7,15 @@ depdir := $(srcdir)/.depend
 headir := $(srcdir)/header
 datdir := dat
 insdir := bin
+hookdir := hook
 
 exec := proofread
 sources := $(wildcard $(srcdir)/*.c)
 objects := $(sources:$(srcdir)/%.c=$(objdir)/%.o)
+hook_exec := pre-commit
+hook_srcs := $(hookdir)/$(hook_exec).c
+hook_objs := $(hook_srcs:%.c=%.o)
+hook_deps := $(addprefix $(objdir)/,strutil.o wrapper.o readline.o fatal.o)
 
 SHELL := /bin/sh
 CC := gcc
@@ -28,6 +33,12 @@ CPPFLAGS := -I $(headir)
 # DEFAULT GOAL
 $(exec): $(objects)
 	$(CC) $^ $(CFLAGS) -o $@
+
+EXT_LIST :=
+SHUTUP := 1
+hook: $(hook_deps)
+	$(CC) $(hook_srcs) -DEXT_LIST='$(EXT_LIST)' -DSHUTUP=$(SHUTUP) $(CPPFLAGS) $(CFLAGS) -c -o $(hook_objs)
+	$(CC) $^ $(hook_objs) $(CPPFLAGS) $(CFLAGS) -o $(hookdir)/$(hook_exec)
 
 # auto-generates dependency files
 $(depdir)/%.d: $(srcdir)/%.c
@@ -47,6 +58,7 @@ $(objdir)/%.o:
 .PHONY: clean
 clean:
 	rm -f $(exec) $(depdir)/*.d $(objdir)/*.o
+	rm -f $(hookdir)/$(hook_exec) $(hookdir)/$(hook_exec).o
 
 .PHONY: install
 bakdir := bak
@@ -71,6 +83,9 @@ help:
 	@echo $(call Cyellow,make install insdir=<directory-name>)
 	@echo "    Copies the exe with related files under the specified directory."
 	@echo "    Defaults to \"bin\"."
+	@echo ""
+	@echo $(call Cyellow,make hook EXT_LIST=<list> SHUTUP=<value>)
+	@echo "    Builds the pre-commit hook. For the variables, please refer to the manual page."
 
 ###########
 # DEVELOP #
@@ -86,6 +101,10 @@ remake: version doc
 .PHONY: dev
 dev:
 	make CFLAGS='$(DEV_CFLAGS)'
+
+.PHONY: hookinst
+hookinst:
+	cp hook/pre-commit .git/hooks/
 
 tests := nt lt ft at   ntl ltl ftl atl   st kt wt
 .PHONY: $(tests)
