@@ -12,6 +12,9 @@ hookdir := hook
 exec := proofread
 sources := $(wildcard $(srcdir)/*.c)
 objects := $(sources:$(srcdir)/%.c=$(objdir)/%.o)
+srcs_insdir_required := $(addprefix $(srcdir)/,optprocessor.c)
+objs_insdir_required := $(srcs_insdir_required:$(srcdir)/%.c=$(objdir)/%.o)
+
 hook_exec := pre-commit
 hook_srcs := $(hookdir)/$(hook_exec).c
 hook_objs := $(hook_srcs:%.c=%.o)
@@ -52,8 +55,13 @@ $(depdir)/%.d: $(srcdir)/%.c
 
 include $(sources:$(srcdir)/%.c=$(depdir)/%.d)
 
+# Note that this is a pattern rule and thus an implicit rule.
 $(objdir)/%.o:
 	$(CC) $< $(CPPFLAGS) $(CFLAGS) -c -o $@
+
+# This is an explicit rule and takes precedence over the implicit rule.
+$(objs_insdir_required):
+	$(CC) $< -DPATH='"$(insdir)"' $(CPPFLAGS) $(CFLAGS) -c -o $@
 
 #################
 # MISCELLANEOUS #
@@ -65,7 +73,7 @@ clean:
 
 .PHONY: install
 bakdir := bak
-install: version
+install: version $(exec)
 	test -d $(insdir) || (mkdir $(insdir) && mkdir $(insdir)/$(bakdir) && mkdir $(insdir)/$(datdir))
 	install $(exec) $(insdir)
 	install -m 444 --target-directory=$(insdir)/$(datdir) $(datdir)/*

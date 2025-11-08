@@ -12,6 +12,10 @@
 #define DIRSEP "\\"
 #endif
 
+#ifndef PATH
+#define PATH "bin"
+#endif
+
 // `handle_hlpopt` (help option) prints the help manual.
 static void handle_hlpopt(void);
 // `handle_vopt` (version option) prints the version.
@@ -47,7 +51,7 @@ static void handle_hlpopt(void) {
 
       ret = system(NULL);  /* 0 non-zero-value(1) */
       if (!ret) print_manual();
-      ret = system("man dat" DIRSEP "proofread.1"); /* 0 1 2 3 16 */
+      ret = system("man " PATH DIRSEP "dat" DIRSEP "proofread.1"); /* 0 1 2 3 16 */
       if (!ret) fatal("proofread: failed to execute man.");
       exit(EXIT_SUCCESS);
    #else
@@ -59,7 +63,7 @@ static void print_manual(void) {
    FILE *fp;
    char *line;
 
-   fp = sfopen("dat" DIRSEP "proofread.1.txt", "r");
+   fp = sfopen(PATH DIRSEP "dat" DIRSEP "proofread.1.txt", "r");
    while (!readln(fp, &line)) {
       sfputs(stdout, line);
       free(line);
@@ -72,7 +76,7 @@ static void handle_vopt(bool extflg) {
    FILE *fp;
    char *line;
 
-   fp = sfopen("dat" DIRSEP "version.txt", "r");
+   fp = sfopen(PATH DIRSEP "dat" DIRSEP "version.txt", "r");
    if (!readln(fp, &line)) {
       fmtwrt("proofread %s", line);
       free(line);

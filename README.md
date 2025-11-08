@@ -8,23 +8,16 @@ proofread (-h | --help)
 proofread (-v | -vv | -vvv)
 ```
 
-## Build and Install
+## Installation
 ```bash
-# builds the executable
-$ make
-
-# copies the exe with related files under "bin" directory
-$ make install
-
-# (optional) appends to PATH
-export PATH=$PATH:<path-to-installation-directory>
+$ make install insdir=<install-path>
 ```
-It is possible to specify a directory name when installing; please type `make help` for more information.
+The `make install` call builds the executable and installs the program under the directory given by `<install-path>`. If `insdir` is not specified, it defaults to `bin`.
 
 The structure of the installation directory is as follows:
 ```bash
-$ tree bin
-bin
+$ tree <install-path>
+<install-path>
 ├── bak
 ├── dat
 │   ├── proofread.1
