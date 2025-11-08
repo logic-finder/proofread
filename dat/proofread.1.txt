@@ -195,7 +195,4 @@ AUTHOR
 
        For more information, please visit the GitHub repository: https://github.com/logic-finder/proofread.
 
-SEE ALSO
-       gitattributes(5)
-
 v1.0.0                                                11/07/2025                                         proofread(1)
