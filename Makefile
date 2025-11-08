@@ -73,14 +73,10 @@ clean:
 
 .PHONY: install
 bakdir := bak
-install: version $(exec)
+install: $(exec)
 	test -d $(insdir) || (mkdir $(insdir) && mkdir $(insdir)/$(bakdir) && mkdir $(insdir)/$(datdir))
 	install $(exec) $(insdir)
 	install -m 444 --target-directory=$(insdir)/$(datdir) $(datdir)/*
-
-.PHONY: version
-version:
-	git describe core > $(datdir)/version.txt
 
 .PHONY: help
 define clrstr
@@ -106,7 +102,7 @@ doc:
 	man $(datdir)/proofread.1 > $(datdir)/proofread.1.txt
 
 .PHONY: remake
-remake: version doc
+remake: doc
 	make $(exec) --always-make
 
 .PHONY: dev
@@ -116,6 +112,18 @@ dev:
 .PHONY: hookinst
 hookinst:
 	cp hook/pre-commit .git/hooks/
+
+.PHONY: archive
+vsntxt := $(datdir)/version.txt
+archive_prefix := $(exec)_$$(git describe core)
+archive: all hook
+	git describe core > $(vsntxt)
+	git update-index --add --cacheinfo 100644,$$(git hash-object -w $(vsntxt)),$(vsntxt)
+	git archive $$(git write-tree) \
+		--prefix="$(archive_prefix)/$(hookdir)/" --add-file=$(hookdir)/$(hook_exec) \
+		--prefix="$(archive_prefix)/" --add-file=$(exec) \
+		| gzip > $(archive_prefix).tar.gz
+	git checkout HEAD~1 -- $(vsntxt)
 
 tests := nt lt ft at   ntl ltl ftl atl   st kt wt
 .PHONY: $(tests)
