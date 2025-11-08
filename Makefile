@@ -125,6 +125,13 @@ archive: all hook
 		| gzip > $(archive_prefix).tar.gz
 	git checkout HEAD~1 -- $(vsntxt)
 
+.PHONY: night
+night:
+	git push origin :nightly
+	git tag -d nightly
+	git tag --no-sign nightly core
+	git push origin --tags
+
 tests := nt lt ft at   ntl ltl ftl atl   st kt wt
 .PHONY: $(tests)
 .ONESHELL: $(tests)
