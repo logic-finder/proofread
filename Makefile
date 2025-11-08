@@ -116,13 +116,10 @@ hookinst:
 .PHONY: archive
 vsntxt := $(datdir)/version.txt
 archive_prefix := $(exec)_$$(git describe core)
-archive: all hook
+archive:
 	git describe core > $(vsntxt)
 	git update-index --add --cacheinfo 100644,$$(git hash-object -w $(vsntxt)),$(vsntxt)
-	git archive $$(git write-tree) \
-		--prefix="$(archive_prefix)/$(hookdir)/" --add-file=$(hookdir)/$(hook_exec) \
-		--prefix="$(archive_prefix)/" --add-file=$(exec) \
-		| gzip > $(archive_prefix).tar.gz
+	git archive $$(git write-tree) --prefix="$(archive_prefix)/" | gzip > $(archive_prefix).tar.gz
 	git checkout HEAD~1 -- $(vsntxt)
 
 .PHONY: night
