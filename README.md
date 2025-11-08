@@ -10,14 +10,14 @@ proofread (-v | -vv | -vvv)
 
 ## Installation
 ```bash
-$ make install insdir=<install-path>
+$ make install insdir=<absolute-path>
 ```
-The `make install` call builds the executable and installs the program under the directory given by `<install-path>`. If `insdir` is not specified, it defaults to `bin`.
+The `make install` call builds `proofread`, the executable, and installs the program under the directory given by `<absolute-path>`. The path must not be a relative path. The program needs this path so as to work properly.
 
 The structure of the installation directory is as follows:
 ```bash
-$ tree <install-path>
-<install-path>
+$ tree <absolute-path>
+<absolute-path>
 ├── bak
 ├── dat
 │   ├── proofread.1
