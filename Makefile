@@ -103,11 +103,11 @@ doc:
 
 .PHONY: remake
 remake: doc
-	make $(exec) --always-make
+	$(MAKE) $(exec) --always-make
 
 .PHONY: dev
 dev:
-	make CFLAGS='$(DEV_CFLAGS)'
+	$(MAKE) CFLAGS='$(DEV_CFLAGS)'
 
 .PHONY: hookinst
 hookinst:
