@@ -120,12 +120,12 @@ The program reads \fIinput\&.txt\fR and fixes EOL and EOF problems in that file.
 .sp
 There is a pre-commit hook which is executed automatically when one executes \fBgit commit\fR. This hook executes \fBproofread\fR on the files which are staged (by a prior \fBgit add\fR) and whose state is modified or newly added. Its behavior differs depending on whether the file has local changes or not. If it has, the hook updates the index only. Otherwise, the hook updates both the index and the worktree.
 .PP
-In order to use it, one must compile it first and place the executable under the \fIhooks\fR directory of the desired git repository:
+In order to use it, one must compile it first and place the executable under the \fI.git/hooks\fR directory of the desired git repository:
 .RS
 .sp
 .nf
 $ make hook EXT_LIST='".c", ".h"' SHUTUP=1
-$ cp hook/pre-commit \fI<dir>\fR
+$ cp hook/pre-commit \fI<git-repo>/.git/hooks\fR
 .fi
 .sp
 .RE

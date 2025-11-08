@@ -149,11 +149,11 @@ EXAMPLES
        behavior differs depending on whether the file has local changes or not. If it has, the hook updates the index
        only. Otherwise, the hook updates both the index and the worktree.
 
-       In  order  to  use it, one must compile it first and place the executable under the hooks directory of the de‐
-       sired git repository:
+       In  order  to use it, one must compile it first and place the executable under the .git/hooks directory of the
+       desired git repository:
 
               $ make hook EXT_LIST='".c", ".h"' SHUTUP=1
-              $ cp hook/pre-commit <dir>
+              $ cp hook/pre-commit <git-repo>/.git/hooks
 
        When making the pre-commit hook, one can control two variables:
 
