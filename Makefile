@@ -42,9 +42,11 @@ $(exec): $(objects)
 
 EXT_LIST :=
 SHUTUP := 1
-hook: $(hook_deps)
-	$(CC) $(hook_srcs) -DEXT_LIST='$(EXT_LIST)' -DSHUTUP=$(SHUTUP) $(CPPFLAGS) $(CFLAGS) -c -o $(hook_objs)
-	$(CC) $^ $(hook_objs) $(CPPFLAGS) $(CFLAGS) -o $(hookdir)/$(hook_exec)
+hook: $(hook_objs) $(hook_deps)
+	$(CC) $^ $(CPPFLAGS) $(CFLAGS) -o $(hookdir)/$(hook_exec)
+
+$(hook_objs): $(hook_srcs)
+	$(CC) $(hook_srcs) -DEXT_LIST='$(EXT_LIST)' -DSHUTUP=$(SHUTUP) $(CPPFLAGS) $(CFLAGS) -c -o $@
 
 # auto-generates dependency files
 $(depdir)/%.d: $(srcdir)/%.c
