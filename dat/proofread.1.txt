@@ -164,6 +164,9 @@ EXAMPLES
 
               SHUTUP Sets the verbosity of the hook. The value of 1 means true and 0, false.
 
+       If the hook is executed with l option, it prints out the extension list at stdout,  exiting  with  the  status
+       code 2.
+
 EXIT STATUS
        The program exits with EXIT_SUCCESS on normal status. Otherwise, EXIT_FAILURE.
 
@@ -183,7 +186,7 @@ FILES
               A text file containing the version of this program.
 
 NOTES
-       I took it into account--at least I think so--executing this program  under  the  Windows  environment,  but  I
+       I  took  it  into  account--at  least  I think so--executing this program under the Windows environment, but I
        haven't tested it since I don't have a C compiler installed in my machine which can make an .exe file.
 
 BUGS

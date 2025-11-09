@@ -60,5 +60,7 @@ Two variables affect the behavior of the hook:
 - `EXT_LIST` defines the extensions to apply **proofread**. The value must be enclosed with a single-quote mark and each extension must be enclosed with a double-quote mark. If not specified, all of the files which meet the above conditions are subject to the application.
 - `SHUTUP` sets the verbosity of the hook. The value of **1** means **true** and **0**, **false**.
 
+If the hook is executed with `l` option, it prints out the extension list at stdout, exiting with the status code 2.
+
 ## Verification on Tags and Commits
 If one is in need of verifying the tags and commits, please type `git show maintainer-pgp-pub` and follow the instruction written in it.
