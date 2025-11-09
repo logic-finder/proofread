@@ -5,6 +5,10 @@
 #include "wrapper.h"
 #include "readline.h"
 
+#ifndef EXT_LIST
+#define EXT_LIST  /* if not specified, all A/M files are processed. */
+#endif
+
 #ifndef SHUTUP
 #define SHUTUP 0
 #endif
@@ -25,7 +29,19 @@ char *msg_cmd = "pre-commit: failed to construct a command to execute.\n";
 char *msg_prf = "pre-commit: proofread exited with a non-zero status.\n";
 char *msg_git = "pre-commit: git exited abnormally.\n";
 
-int main(void) {
+int main(int argc, const char **argv) {
+   char *ext[] = {   /* the extensions to accept. */
+      NULL, /* ext[0] has a special meaning: it's meant to be a filename. */
+      EXT_LIST
+   };
+   int extlen = sizeof ext / sizeof ext[0] - 1;
+
+   // prints the list of valid extensions, if given the "l" option
+   if (argc > 1 && !strcmp(argv[1], "l")) {
+      show_ext_list(extlen, ext + 1);
+      return 2;
+   }
+
    // checks whether a shell is available or not
    int ret;
 
@@ -84,15 +100,6 @@ int main(void) {
 
    - Otherwise, the loop skips to the next line.
    */
-   #ifndef EXT_LIST
-   #define EXT_LIST  /* if not specified, all A/M files are processed. */
-   #endif
-
-   char *ext[] = {   /* the extensions to accept. */
-      NULL, /* ext[0] has a special meaning: it's meant to be a filename. */
-      EXT_LIST
-   };
-   int extlen = sizeof ext / sizeof ext[0] - 1;
    char *s;
 
    // prints out the ext. list
