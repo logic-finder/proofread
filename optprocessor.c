@@ -88,6 +88,7 @@ static void handle_vopt(bool extflg) {
 
 static void handle_vvopt(void) {
    handle_vopt(false);
+   fmtwrt("\nPATH = %s\n", PATH);
    sputs("\nDeveloped by Doohyeon Won (logicseeker@naver.com)");
    sputs("For more information, please visit https://github.com/logic-finder/proofread.");
    exit(EXIT_SUCCESS);
