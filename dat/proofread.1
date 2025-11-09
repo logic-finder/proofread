@@ -34,7 +34,7 @@ Please note that if \fB\-\-keep\fR were specified and the filename had a directo
 $ proofread --keep=mybackup + -- dir/a.txt
 .sp
 .RE
-would result in "mybackup/a.txt" if everything went well.
+would result in "\fImybackup/a.txt\fR" if everything went well.
 .PP
 If the directory name provided to \fB\-\-keep\fR does not exist, the programs exits with failure. In such a case, the input files remain intact since the program does not directly edit the input file. Instead, the program writes to a temporary file, moves the original file under the specified directory, and gives the temp file the name of the input file. The name of temporary files is made by appending the string "\&.prfrd\&.tmp" to the input file name (including the extension, if any).
 .PP
