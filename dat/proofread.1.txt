@@ -109,47 +109,48 @@ OPTIONS
        -h, --help
               Prints the manual you are reading know.
 
-       -v     Given once, prints the version of this program. Given twice, prints the  information  related  to  this
-              program.  Meanwhile,  a question mark hangs over this option being given three times. Let's leave it as
-              the delight of when executed for real. Suffice it to say that you'll like it.
+       -v     Given once, prints the version of this program. Given twice, prints the version, the installation path,
+              and  the  information  related to this program. Meanwhile, a question mark hangs over this option being
+              given three times. Let's leave it as the delight of when executed for real.  Suffice  it  to  say  that
+              you'll like it.
 
 EXAMPLES
        * Checking for EOL and EOF Problems
 
               $ proofread -lf --dry-run=line - < input.txt
 
-       With input.txt redirected, the program checks whether there are EOL and EOF problems and prints the result  of
+       With  input.txt redirected, the program checks whether there are EOL and EOF problems and prints the result of
        the inspection to the standard output.
 
        * Checking for Multiple Files
 
               $ proofread -lf --dry-run=line + -- a.txt b.txt c.txt
 
-       The  program reads the three files and checks for each file whether it has EOL and EOF problems. The result is
+       The program reads the three files and checks for each file whether it has EOL and EOF problems. The result  is
        printed to stdout file by file.
 
        * Fixing EOL and EOF Problems
 
               $ proofread -lf + -- input.txt
 
-       The program reads one file, which is input.txt, and fixes EOL and EOF problems in that file. Notice that  this
+       The  program reads one file, which is input.txt, and fixes EOL and EOF problems in that file. Notice that this
        operation modifies the file.
 
        * Keeping the Original File under a Specific Directory
 
               $ proofread -lf --keep=backup/ + -- input.txt
 
-       The  program  reads  input.txt and fixes EOL and EOF problems in that file. After the correction, it saves the
+       The program reads input.txt and fixes EOL and EOF problems in that file. After the correction,  it  saves  the
        original file under the "backup/" directory.
 
        * Setting Up a Pre-commit Hook
 
-       There is a pre-commit hook which is executed automatically when one executes git commit.  This  hook  executes
-       proofread  on  the files which are staged (by a prior git add) and whose state is modified or newly added. Its
+       There  is  a  pre-commit hook which is executed automatically when one executes git commit. This hook executes
+       proofread on the files which are staged (by a prior git add) and whose state is modified or newly  added.  Its
        behavior differs depending on whether the file has local changes or not. If it has, the hook updates the index
        only. Otherwise, the hook updates both the index and the worktree.
 
-       In  order  to use it, one must compile it first and place the executable under the .git/hooks directory of the
+       In order to use it, one must compile it first and place the executable under the .git/hooks directory  of  the
        desired git repository:
 
               $ make hook EXT_LIST='".c", ".h"' SHUTUP=1
@@ -158,13 +159,13 @@ EXAMPLES
        When making the pre-commit hook, one can control two variables:
 
               EXT_LIST
-                     Defines the extensions to apply proofread. The value must be enclosed with a  single-quote  mark
+                     Defines  the  extensions to apply proofread. The value must be enclosed with a single-quote mark
                      and each extension must be enclosed with a double-quote mark. If not specified, all of the files
                      which meet the above conditions are subject to the application.
 
               SHUTUP Sets the verbosity of the hook. The value of 1 means true and 0, false.
 
-       If the hook is executed with l option, it prints out the extension list at stdout,  exiting  with  the  status
+       If  the  hook  is  executed with l option, it prints out the extension list at stdout, exiting with the status
        code 2.
 
 EXIT STATUS
@@ -186,7 +187,7 @@ FILES
               A text file containing the version of this program.
 
 NOTES
-       I  took  it  into  account--at  least  I think so--executing this program under the Windows environment, but I
+       I took it into account--at least I think so--executing this program  under  the  Windows  environment,  but  I
        haven't tested it since I don't have a C compiler installed in my machine which can make an .exe file.
 
 BUGS
