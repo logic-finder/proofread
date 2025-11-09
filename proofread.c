@@ -357,6 +357,11 @@ static void cleanup(optflg_t *of, const char *srcname, const char *destname, con
    #else
       char *dirsep = "\\";
    #endif
+
+   #ifndef PATH
+   #define PATH "bin"
+   #endif
+
    char *rnmmsg = "%s is renamed to %s.\n";
 
    if (!of->kep) {
@@ -382,7 +387,10 @@ static void cleanup(optflg_t *of, const char *srcname, const char *destname, con
       the file wouldn't have opened in the first place.
       */
       onlyname = extfnm(srcname);
-      newname = concat(3, keeppath, dirsep, onlyname);
+      if (!strcmp(keeppath, "bak"))
+         newname = concat(5, PATH, dirsep, keeppath, dirsep, onlyname);
+      else
+         newname = concat(3, keeppath, dirsep, onlyname);
 
       if (rename(srcname, newname)) {
          sremove(destname);

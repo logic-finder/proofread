@@ -12,7 +12,7 @@ hookdir := hook
 exec := proofread
 sources := $(wildcard $(srcdir)/*.c)
 objects := $(sources:$(srcdir)/%.c=$(objdir)/%.o)
-srcs_insdir_required := $(addprefix $(srcdir)/,optprocessor.c)
+srcs_insdir_required := $(addprefix $(srcdir)/,optprocessor.c proofread.c)
 objs_insdir_required := $(srcs_insdir_required:$(srcdir)/%.c=$(objdir)/%.o)
 
 hook_exec := pre-commit
