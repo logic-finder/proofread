@@ -57,7 +57,7 @@ $ cp hook/pre-commit <git-repo>/.git/hooks
 ```
 
 Two variables affect the behavior of the hook:
-- `EXT_LIST` defines the extensions to apply **proofread**. The value must be enclosed with a single-quote mark and each extension must be enclosed with a double-quote mark. If not specified, all of the files which meet the above conditions are subject to the application.
+- `EXT_LIST` defines the extensions to apply **proofread**. The value must be enclosed with a single-quote mark and each extension must be enclosed with a double-quote mark. The extensions are comma-separated. If not specified, all of the files which meet the above conditions are subject to the application.
 - `SHUTUP` sets the verbosity of the hook. The value of **1** means **true** and **0**, **false**.
 
 If the hook is executed with `l` option, it prints out the extension list at stdout, exiting with the status code 2.

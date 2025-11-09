@@ -161,12 +161,13 @@ EXAMPLES
 
               EXT_LIST
                      Defines the extensions to apply proofread. The value must be enclosed with a  single-quote  mark
-                     and each extension must be enclosed with a double-quote mark. If not specified, all of the files
-                     which meet the above conditions are subject to the application.
+                     and  each  extension  must  be enclosed with a double-quote mark. The extensions are comma-sepa‐
+                     rated. If not specified, all of the files which meet the above conditions are subject to the ap‐
+                     plication.
 
               SHUTUP Sets the verbosity of the hook. The value of 1 means true and 0, false.
 
-       If the hook is executed with l option, it prints out the extension list at stdout,  exiting  with  the  status
+       If  the  hook  is  executed with l option, it prints out the extension list at stdout, exiting with the status
        code 2.
 
 EXIT STATUS
@@ -188,7 +189,7 @@ FILES
               A text file containing the version of this program.
 
 NOTES
-       I  took  it  into  account--at  least  I think so--executing this program under the Windows environment, but I
+       I took it into account--at least I think so--executing this program  under  the  Windows  environment,  but  I
        haven't tested it since I don't have a C compiler installed in my machine which can make an .exe file.
 
 BUGS
