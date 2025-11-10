@@ -48,7 +48,7 @@ $ proofread -lf --keep=backup/ + -- input.txt
 ```
 
 ### Pre-commit Hook
-There is a way to apply **proofread** automatically, when `git commit` is executed, on the files which are staged (by a prior `git add`) and whose state is modified or newly added. The pre-commit hook does this task. Its behavior differs depending on whether the files has local changes or not. If it does, the hook updates the index only. Otherwise, the hook updates both the index and the worktree.
+There is a way to apply **proofread** automatically, when `git commit` is executed, on the files which are staged (by a prior `git add`) and whose state is modified or newly added. The pre-commit hook does this task. Its behavior differs depending on whether the file has local changes or not. If it does, the hook updates the index only. Otherwise, the hook updates both the index and the worktree.
 
 In order to use it, the hook must be compiled first and installed under the `.git/hooks` directory of the desired git repository:
 ```bash
