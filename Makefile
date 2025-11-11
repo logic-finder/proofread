@@ -100,11 +100,33 @@ help:
 # DEVELOP #
 ###########
 .PHONY: doc
+docbase := $(datdir)/$(exec).1
+docbasetmp := $(docbase).tmp
+doctxt := $(docbase).txt
+doctxttmp := $(doctxt).tmp
+version_placeholder := %(describe:tags=true,exclude=nightly)
+date_placeholder := %as
 doc:
-	man $(datdir)/proofread.1 > $(datdir)/proofread.1.txt
+# update proofread.1
+	echo ".TH $(exec) 1 $$(git log -1 --pretty=format:'$(date_placeholder) $(version_placeholder)')" > $(docbasetmp)
+	tail --lines=+2 -- $(docbase) >> $(docbasetmp)
+	rm $(docbase)
+	mv $(docbasetmp) $(docbase)
+# update proofread.1.txt
+	man $(docbase) > $(doctxt)
+	head --lines=-1 -- $(doctxt) > $(doctxttmp)
+	echo $$(git log -1 --pretty=format:'$(version_placeholder)') >> $(doctxttmp)
+	echo $$(git log -1 --pretty=format:'$(date_placeholder)') >> $(doctxttmp)
+	rm $(doctxt)
+	mv $(doctxttmp) $(doctxt)
+
+.PHONY: version
+vsntxt := $(datdir)/version.txt
+version:
+	git describe --tags --exclude 'nightly' core > $(vsntxt)
 
 .PHONY: remake
-remake: doc
+remake:
 	$(MAKE) $(exec) --always-make
 
 .PHONY: dev
@@ -116,13 +138,18 @@ hookinst:
 	cp hook/pre-commit .git/hooks/
 
 .PHONY: archive
-vsntxt := $(datdir)/version.txt
-archive_prefix := $(exec)_$$(git describe core)
-archive:
-	git describe core > $(vsntxt)
-	git update-index --add --cacheinfo 100644,$$(git hash-object -w $(vsntxt)),$(vsntxt)
-	git archive $$(git write-tree) --prefix="$(archive_prefix)/" | gzip > $(archive_prefix).tar.gz
-	git checkout HEAD~1 -- $(vsntxt)
+archive_prefix := $(exec)_$$(cat $(vsntxt))
+manpage := $(datdir)/$(exec).1
+manpagetxt := $(manpage).txt
+archive: doc version
+	git archive core \
+		--prefix=$(archive_prefix)/$(datdir)/ \
+			--add-file=$(manpage) \
+			--add-file=$(manpagetxt) \
+			--add-file=$(vsntxt) \
+		--prefix=$(archive_prefix)/ \
+	| gzip > $(archive_prefix).tar.gz
+	git checkout core -- $(manpage) $(manpagetxt) $(vsntxt)
 
 .PHONY: night
 night:

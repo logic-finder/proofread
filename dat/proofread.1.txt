@@ -201,4 +201,4 @@ AUTHOR
 
        For more information, please visit the GitHub repository: https://github.com/logic-finder/proofread.
 
-v1.0.0                                                11/07/2025                                         proofread(1)
+v0.0.0                                                YYYY-MM-DD                                         proofread(1)
