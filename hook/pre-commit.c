@@ -17,7 +17,7 @@
 #define Cred    "\033[0;31m"
 #define Creset  "\033[0m"
 
-static void show_ext_list(int len, char *list[*]);
+static void show_ext_list(int len, char *list[]);
 static bool has_valid_ext(void *_ext, int _, void *arr);
 static void modify_worktree(char *filename);
 static void modify_index(char *filename);
@@ -165,7 +165,7 @@ int main(int argc, const char **argv) {
    return 0;   /* exits with 0 */
 }
 
-static void show_ext_list(int len, char *list[len]) {
+static void show_ext_list(int len, char *list[]) {
    sfputs(stdout, "pre-commit: target extension:");
    if (!len)
       sfputs(stdout, " none");
