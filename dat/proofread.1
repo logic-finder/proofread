@@ -169,9 +169,13 @@ The text version of the manual page. The program falls back to this file when \f
 A text file containing the version of this program.
 .RE
 .SH NOTES
-I took it into account--at least I think so--executing this program under the Windows environment, but I haven't tested it since I don't have a C compiler installed in my machine which can make an .exe file.
+I took it into account\-\-at least I think so\-\-executing this program under the Windows environment. I tried to compile this program with MSVC and it was observed that the program had no problem, although I didn't make a rigorous examination. I also compiled the pre\-commit hook in the same way and tested it in 'Git for Windows'. Incidentally, it looks like the name of the hook must be \fIpre\-commit.exe\fR, not \fIpre\-commit\fR. Except this affair, the hook program seemed to be fine as well.
 .SH BUGS
-As far as I know, there are no known bugs as of now. If there are, it would be greatly appreciated if you told me about it.
+Under the WSL2 Ubuntu environment, as far as I know, there are no known bugs as of now.
+.PP
+Under the Windows environment, there are no known bugs as of now.
+.PP
+When you should find a bug, it would be greatly appreciated if you told me about it.
 .SH AUTHOR
 Developed by Doohyeon Won (logicseeker@naver\&.com)
 .PP
