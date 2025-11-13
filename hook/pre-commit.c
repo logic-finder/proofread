@@ -61,10 +61,12 @@ int main(int argc, const char **argv) {
    M = modified
    - Refer to https://git-scm.com/docs/git-status#_short_format.
    */
-   FILE *stshrt;
-   char *stshrt_name = ".prfrd.short-status";
+   #define STSHRT_NAME ".prfrd.short-status"
 
-   ret = system("git status --short > .prfrd.short-status");
+   FILE *stshrt;
+   char *stshrt_name = STSHRT_NAME;
+
+   ret = system("git status --short > " STSHRT_NAME);
    if (ret != 0) fatal("pre-commit: failed to execute 'git status'.");
    stshrt = sfopen(stshrt_name, "r");
 
