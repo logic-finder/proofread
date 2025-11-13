@@ -64,9 +64,9 @@ int main(int argc, const char **argv) {
    FILE *stshrt;
    char *stshrt_name = ".prfrd.short-status";
 
-   stshrt = sfopen(stshrt_name, "w+");
    ret = system("git status --short > .prfrd.short-status");
    if (ret != 0) fatal("pre-commit: failed to execute 'git status'.");
+   stshrt = sfopen(stshrt_name, "r");
 
    /*
    - The following while loop reads a line from the tempfile
@@ -231,7 +231,7 @@ static void modify_index(char *filename) {
       "git update-index --add --cacheinfo 100644,"
    };
    char *chkidx_name = ".prfrd.checkout-index-temp";
-   FILE *chkidx = sfopen(chkidx_name, "w+");
+   FILE *chkidx;
 
    int ret, cmdlen, fnlen;
    char *cmd;
@@ -249,6 +249,7 @@ static void modify_index(char *filename) {
    char *idxtmp_name;
    int i, idxtmp_len;
 
+   chkidx = sfopen(chkidx_name, "r");
    ret = readln(chkidx, &idxtmp_name);
    if (ret) vfatal("pre-commit: failed to read %s.\n", chkidx_name);
 
@@ -272,7 +273,7 @@ static void modify_index(char *filename) {
    free(cmd);
 
    char *hshobj_name = ".prfrd.hash-object-temp";
-   FILE *hshobj = sfopen(hshobj_name, "w+");
+   FILE *hshobj;
 
    cmdlen = strlen(cmdbase[2]) + 1 + 1 + idxtmp_len + 1 + 3 + strlen(hshobj_name);
    cmd = smalloc(cmdlen + 1);
@@ -286,6 +287,7 @@ static void modify_index(char *filename) {
    char *hshval;
    int hshval_len;
 
+   hshobj = sfopen(hshobj_name, "r");
    ret = readln(hshobj, &hshval);
    if (ret) vfatal("pre-commit: failed to read %s.\n", hshobj_name);
 
