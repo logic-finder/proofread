@@ -202,7 +202,7 @@ static void modify_worktree(char *filename) {
    fnlen = strlen(filename);
    cmdlen = strlen(cmdbase[0]) + 1 + 1 + fnlen + 1;
    cmd = smalloc(cmdlen + 1);
-   ret = sprintf(cmd, "%s '%s'", cmdbase[0], filename);
+   ret = sprintf(cmd, "%s \"%s\"", cmdbase[0], filename);
    if (ret != cmdlen) fatal(msg_cmd);
    if (!SHUTUP) fmtwrt("pre-commit: %s '%s'\n", cmdbase[0], normal);
    ret = system(cmd);
@@ -210,7 +210,7 @@ static void modify_worktree(char *filename) {
 
    // cmd can accommodate cmdbase[1] since it's shorter than [0].
    cmdlen = strlen(cmdbase[1]) + 1 + 1 + fnlen + 1;
-   ret = sprintf(cmd, "%s '%s'", cmdbase[1], filename);
+   ret = sprintf(cmd, "%s \"%s\"", cmdbase[1], filename);
    if (ret != cmdlen) fatal(msg_cmd);
    if (!SHUTUP) fmtwrt("pre-commit: %s '%s'\n", cmdbase[1], normal);
    ret = system(cmd);
@@ -241,7 +241,7 @@ static void modify_index(char *filename) {
    fnlen = strlen(filename);
    cmdlen = strlen(cmdbase[0]) + 1 + 1 + fnlen + 1 + 3 + strlen(chkidx_name);
    cmd = smalloc(cmdlen + 1);
-   ret = sprintf(cmd, "%s '%s' > %s", cmdbase[0], filename, chkidx_name);
+   ret = sprintf(cmd, "%s \"%s\" > %s", cmdbase[0], filename, chkidx_name);
    if (ret != cmdlen) fatal(msg_cmd);
    if (!SHUTUP) fmtwrt("pre-commit: %s '%s' > %s\n", cmdbase[0], normal, chkidx_name);
    ret = system(cmd);
@@ -267,7 +267,7 @@ static void modify_index(char *filename) {
 
    cmdlen = strlen(cmdbase[1]) + 1 + 1 + idxtmp_len + 1;
    cmd = smalloc(cmdlen + 1);
-   ret = sprintf(cmd, "%s '%s'", cmdbase[1], idxtmp_name);
+   ret = sprintf(cmd, "%s \"%s\"", cmdbase[1], idxtmp_name);
    if (ret != cmdlen) fatal(msg_cmd);
    if (!SHUTUP) fmtwrt("pre-commit: %s '%s'\n", cmdbase[1], idxtmp_name);
    ret = system(cmd);
@@ -279,7 +279,7 @@ static void modify_index(char *filename) {
 
    cmdlen = strlen(cmdbase[2]) + 1 + 1 + idxtmp_len + 1 + 3 + strlen(hshobj_name);
    cmd = smalloc(cmdlen + 1);
-   ret = sprintf(cmd, "%s '%s' > %s", cmdbase[2], idxtmp_name, hshobj_name);
+   ret = sprintf(cmd, "%s \"%s\" > %s", cmdbase[2], idxtmp_name, hshobj_name);
    if (ret != cmdlen) fatal(msg_cmd);
    if (!SHUTUP) fmtwrt("pre-commit: %s '%s' > %s\n", cmdbase[2], idxtmp_name, hshobj_name);
    ret = system(cmd);
@@ -298,7 +298,7 @@ static void modify_index(char *filename) {
 
    cmdlen = strlen(cmdbase[3]) + 40 + 1 + 1 + fnlen + 1;
    cmd = smalloc(cmdlen + 1);
-   ret = sprintf(cmd, "%s%s,'%s'", cmdbase[3], hshval, filename);
+   ret = sprintf(cmd, "%s%s,\"%s\"", cmdbase[3], hshval, filename);
    if (ret != cmdlen) fatal(msg_cmd);
    if (!SHUTUP) fmtwrt("pre-commit: %s%s,'%s'\n", cmdbase[3], hshval, filename);
    ret = system(cmd);
