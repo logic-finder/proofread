@@ -49,9 +49,19 @@ static void handle_hlpopt(void) {
    #if !defined(_WIN32) && (defined(__unix__) || defined(__unix))
       int ret;
 
-      ret = system(NULL);  /* 0 non-zero-value(1) */
+      /*
+      system(NULL) RETURN VALUE
+      0 = shell is not available
+      non-zero = no problem
+      */
+      ret = system(NULL);
       if (!ret) print_manual();
-      ret = system("man " PATH DIRSEP "dat" DIRSEP "proofread.1"); /* 0 1 2 3 16 */
+      /*
+      MAN(1) EXIT STATUS
+      0 = no problem
+      1|2|3|16 = bad
+      */
+      ret = system("man " PATH DIRSEP "dat" DIRSEP "proofread.1");
       if (ret) print_manual();  /* falls back on .txt */
       exit(EXIT_SUCCESS);
    #else
