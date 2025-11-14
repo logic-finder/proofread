@@ -52,7 +52,7 @@ static void handle_hlpopt(void) {
       ret = system(NULL);  /* 0 non-zero-value(1) */
       if (!ret) print_manual();
       ret = system("man " PATH DIRSEP "dat" DIRSEP "proofread.1"); /* 0 1 2 3 16 */
-      if (!ret) fatal("proofread: failed to execute man.");
+      if (ret) fatal("proofread: failed to execute man.");
       exit(EXIT_SUCCESS);
    #else
       print_manual();
