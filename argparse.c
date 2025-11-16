@@ -246,6 +246,7 @@ static void parse_endopt(optflg_t *of) {
    if (of->hlp) fatal("proofread: -h with --.");
    if (of->vsn) fatal("proofread: -v with --.");
    if (of->sto) fatal("proofread: - with --.");
+   if (!of->owf) fatal("proofread: + must be specified before --.");
    of->eoo = true;
 }
 
