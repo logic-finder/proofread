@@ -8,6 +8,9 @@ proofread (-h | --help)
 proofread (-v | -vv | -vvv)
 ```
 
+### Demo
+[This video](https://youtu.be/fh_IJph_kn4?t=110) shows how I made this program.
+
 ## Installation
 ```bash
 $ make install insdir=<absolute-path>
