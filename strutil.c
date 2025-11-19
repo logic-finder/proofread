@@ -74,7 +74,7 @@ extern char *extfnm(const char *path) {
    if (path[pos + 1] == '\0')  /* path does not have a filename */
       return NULL;
 
-   filename = smalloc(len);
+   filename = smalloc(len + 1);
 
    /* handles "s" */
    if (pos == -1)   /* path does not have a dirsep */

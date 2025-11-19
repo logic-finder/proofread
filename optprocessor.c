@@ -120,7 +120,7 @@ static char *ceasar(const char *msg, int shift) {
    char ch, *ret;
 
    len = strlen(msg);
-   ret = smalloc(len);
+   ret = smalloc(len + 1);
 
    for (i = 0; i < len; i++) {
       ch = msg[i];
