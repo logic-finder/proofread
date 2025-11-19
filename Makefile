@@ -22,7 +22,7 @@ hook_deps := $(addprefix $(objdir)/,strutil.o wrapper.o readline.o fatal.o)
 
 SHELL := /bin/sh
 CC := gcc
-DEV_CFLAGS := -O3 -g -Wall -W -pedantic
+DEV_CFLAGS := -g -Wall -W -pedantic
 CFLAGS := -O3 -g
 CPPFLAGS := -I $(headir)
 
