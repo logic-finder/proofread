@@ -125,10 +125,6 @@ vsntxt := $(datdir)/version.txt
 version:
 	git describe --tags --exclude 'nightly' core > $(vsntxt)
 
-.PHONY: remake
-remake:
-	$(MAKE) $(exec) --always-make
-
 .PHONY: dev
 dev:
 	$(MAKE) CFLAGS='$(DEV_CFLAGS)'
