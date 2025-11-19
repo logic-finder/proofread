@@ -127,7 +127,7 @@ version:
 
 .PHONY: dev
 dev:
-	$(MAKE) CFLAGS='$(DEV_CFLAGS)'
+	$(MAKE) CFLAGS='$(DEV_CFLAGS)' --always-make
 
 .PHONY: hookinst
 hookinst:
