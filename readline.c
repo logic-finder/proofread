@@ -6,7 +6,7 @@
 #include "wrapper.h"
 #include "readline.h"
 
-char *errmsg = "proofread: readln: unable to read.";
+static char *errmsg = "proofread: readln: unable to read.";
 
 extern int readln(FILE *fp, char **line) {
    // tests whether there is nothing to read
